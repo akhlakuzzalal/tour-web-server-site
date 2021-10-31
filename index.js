@@ -21,6 +21,7 @@ async function run() {
       const tourCollection = database.collection('tours');
       const hotelCollection = database.collection('hotel');
       const ordersCollection = database.collection('orders');
+      const busesCollection = database.collection('buses');
 
       // POST Method
       app.post('/tours', async (req, res) => {
@@ -77,6 +78,11 @@ async function run() {
          res.json(allTours);
       });
 
+      app.get('/buses', async (req, res) => {
+         const buses = await busesCollection.find({}).toArray();
+         res.json(buses)
+      })
+
       app.get('/hotels', async (req, res) => {
          const cursor = hotelCollection.find({});
          const allTours = await cursor.toArray();
@@ -90,7 +96,7 @@ async function run() {
       })
 
       // single get Method
-      app.get('/tours/:id', async (req, res) => {
+      app.get('/details/:id', async (req, res) => {
          const id = req.params.id;
          const query = { _id: ObjectId(id) };
          const result = await tourCollection.findOne(query);
